@@ -4,7 +4,11 @@ import User from "../models/user";
 interface CreateUserRequest extends Request {
     body: {
         auth0Id: string;
-        // add other expected properties here
+        email: String;
+        name?: String;
+        addressLine1?: String;
+        city?: String;
+        country?: String;
     };
 }
 
@@ -29,3 +33,5 @@ export const createCurrentUser = async (
         return res.status(500).json({ message: "Error creating user" });
     }
 };
+
+export default { createCurrentUser };
