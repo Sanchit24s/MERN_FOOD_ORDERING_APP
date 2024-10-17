@@ -12,6 +12,24 @@ interface CreateUserRequest extends Request {
     };
 }
 
+export const getCurrentUser = async (
+    req: CreateUserRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const currentUser = await User.findOne({ _id: req.userId });
+        if (!currentUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json(currentUser);
+    } catch (error) {
+        next(error);
+        return res.status(500).json({ message: "Error getting user" });
+    }
+};
+
 export const createCurrentUser = async (
     req: CreateUserRequest,
     res: Response,
