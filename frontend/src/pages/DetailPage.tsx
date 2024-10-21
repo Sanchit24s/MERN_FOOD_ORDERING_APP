@@ -21,22 +21,22 @@ function DetailPage() {
 
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-    const addToCard = (menuItem: MenuItemType) => {
-        setCartItems((prevCardItems) => {
-            const existingCartItem = prevCardItems.find(
+    const addToCart = (menuItem: MenuItemType) => {
+        setCartItems((prevCartItems) => {
+            const existingCartItem = prevCartItems.find(
                 (cartItem) => cartItem._id === menuItem._id
             );
             let updatedCartItems;
 
             if (existingCartItem) {
-                updatedCartItems = prevCardItems.map((cartItem) =>
+                updatedCartItems = prevCartItems.map((cartItem) =>
                     cartItem._id === menuItem._id
                         ? { ...cartItem, quantity: cartItem.quantity + 1 }
                         : cartItem
                 );
             } else {
                 updatedCartItems = [
-                    ...prevCardItems,
+                    ...prevCartItems,
                     {
                         _id: menuItem._id,
                         name: menuItem.name,
@@ -45,6 +45,16 @@ function DetailPage() {
                     },
                 ];
             }
+
+            return updatedCartItems;
+        });
+    };
+
+    const removeFromCart = (cartItem: CartItem) => {
+        setCartItems((prevCartItems) => {
+            const updatedCartItems = prevCartItems.filter(
+                (item) => cartItem._id !== item._id
+            );
 
             return updatedCartItems;
         });
@@ -69,13 +79,17 @@ function DetailPage() {
                     {restaurant.menuItems.map((menuItem) => (
                         <MenuItems
                             menuItem={menuItem}
-                            addToCart={() => addToCard(menuItem)}
+                            addToCart={() => addToCart(menuItem)}
                         />
                     ))}
                 </div>
                 <div>
                     <Card>
-                        <OrderSummary restaurant={restaurant} cartItems={cartItems} />
+                        <OrderSummary
+                            restaurant={restaurant}
+                            cartItems={cartItems}
+                            removeFromCart={removeFromCart}
+                        />
                     </Card>
                 </div>
             </div>
