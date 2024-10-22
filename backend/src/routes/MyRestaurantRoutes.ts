@@ -1,6 +1,12 @@
 import express from "express";
 import multer from "multer";
-import { createMyRestaurant, getMyRestaurant, getMyRestaurantOrders, updateMyRestaurant } from "../controllers/MyRestaurantController";
+import {
+    createMyRestaurant,
+    getMyRestaurant,
+    getMyRestaurantOrders,
+    updateMyRestaurant,
+    updateOrderStatus,
+} from "../controllers/MyRestaurantController";
 import { jwtCheck, jwtParse } from "../middlewares/auth";
 
 const router = express.Router();
@@ -14,6 +20,8 @@ const upload = multer({
 });
 
 router.get("/order", jwtCheck, jwtParse, getMyRestaurantOrders);
+
+router.patch("/order/:orderId/status", jwtCheck, jwtParse, updateOrderStatus);
 
 router.get("/", jwtCheck, jwtParse, (req, res) => {
     getMyRestaurant(req, res);
