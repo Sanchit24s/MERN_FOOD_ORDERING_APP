@@ -160,7 +160,7 @@ export const useUpdateMyRestaurantOrder = () => {
         const accessToken = await getAccessTokenSilently();
 
         const response = await fetch(
-            `${API_BASE_URL}/api/my/restaurant/order${updateStatusOrderRequest.orderId}/status`,
+            `${API_BASE_URL}/api/my/restaurant/order/${updateStatusOrderRequest.orderId}/status`,
             {
                 method: "PATCH",
                 headers: {
@@ -178,7 +178,7 @@ export const useUpdateMyRestaurantOrder = () => {
     };
 
     const {
-        mutateAsync: updateRestatusStatus,
+        mutateAsync: updateRestaurantStatus,
         isLoading,
         isError,
         isSuccess,
@@ -194,5 +194,5 @@ export const useUpdateMyRestaurantOrder = () => {
         reset();
     }
 
-    return { updateRestatusStatus, isLoading };
+    return { updateRestaurantStatus, isLoading };
 };
